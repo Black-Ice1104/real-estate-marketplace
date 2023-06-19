@@ -1,7 +1,5 @@
 import jwt from "jsonwebtoken";
 import {JWT_SECRET} from "../config.js";
-
-import {model, Schema, ObjectId} from 'mongoose';
 // make sure user has logged in
 export const requireSignin = (req, res, next) => {
     try{
