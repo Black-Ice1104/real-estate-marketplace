@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/Black-Ice1104/realist-frontend.git
+[submodule "backend"]
+	path = backend
+	url = https://github.com/Black-Ice1104/realist-backend.git
