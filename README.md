@@ -3,7 +3,6 @@
 
 ### [Click to visit the web app](http://137.184.126.137/)
 
-
 ## Dependencies
 First make sure you have the latest version of NodeJs installed in your computer.
 Install Dependencies:
@@ -15,7 +14,22 @@ Backend:
 Frontend:
 
     npx create-react-app .
-    npm install react-scripts react-router-dom axios react-hot-toast react-icons
+    npm i antd@5.1.2
+    npm i axios@1.2.2
+    npm i dayjs@1.11.7
+    npm i google-map-react@2.2.0
+    npm i react@18.2.0
+    npm i react-currency-input-field@3.6.9
+    npm i react-dom@18.2.0
+    npm i react-google-places-autocomplete@3.4.0
+    npm i react-hot-toast@2.4.0
+    npm i react-html-renderer@0.3.3
+    npm i react-icons@4.7.1
+    npm i react-image-file-resizer@0.4.8
+    npm i react-router-dom@6.6.1
+    npm i react-scripts@5.0.1
+    npm i slugify@1.6.5
+    npm i web-vitals@2.1.4
 
 
 ## Function Introduction

@@ -137,7 +137,7 @@ export const read = async (req, res) => {
   try {
     const { slug } = req.params;
     // mongoose
-    const ad = await Ad.findOne({ slug })
+    const ad = await Ad.findOne({ slug: req.params.slug })
       // .select("-photos.Key -photos.key -photos.ETag -photos.Bucket")
       .populate("postedBy", "name username email phone company photo.Location");
 
@@ -148,15 +148,14 @@ export const read = async (req, res) => {
       action: ad?.action,
       type: ad?.type,
       address: {
-        $regex: ad.googleMap?.[0]?.administrativeLevels?.level2long || "",
+        $regex: ad.googleMap[0].city,
+        // $regex: ad.googleMap?.[0]?.administrativeLevels?.level2long || "",
         $options: "i",
       },
     })
       .limit(3)
-      .select("-photos.Key -photos.key -photos.ETag -photos.Bucket -googleMap")
-      .populate("postedBy", "name username email phone company photo.Location");
-
-    console.log("AD => ", ad);
+      .select("-photos.Key -photos.key -photos.ETag -photos.Bucket -googleMap");
+      // .populate("postedBy", "name username email phone company photo.Location");
 
     res.json({ ad, related });
   } catch (err) {
