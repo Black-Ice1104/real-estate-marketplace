@@ -30,7 +30,13 @@ Frontend:
     npm i react-scripts@5.0.1
     npm i slugify@1.6.5
     npm i web-vitals@2.1.4
+    npm i react-photoswipe-gallery@2.2.7
+    npm i dayjs
 
+    Abandoned:
+    npm i react-grid-gallery@1.0.0
+    npm i react-modal@3.16.1
+    npm i react-responsive-carousel@3.2.23
 
 ## Function Introduction
 ### **Backend**
@@ -136,9 +142,10 @@ Frontend:
         - SellHouse.js
         - SellLand.js
     - Dashboard.js
-- Home: manage the layout of Home page
-- Login: manage the layout of Login page
-- Register: manage the layout of Registration page
+- AdView.js: manage the layout of ad view when clicking into the ad card
+- Home.js: manage the layout of Home page
+- Login.js: manage the layout of Login page
+- Register.js: manage the layout of Registration page
 #### 6. context/
 - auth.js
     - store user info and token after successful login
@@ -159,4 +166,10 @@ Frontend:
 - cards/
     - AdCard.js
         - manage the layout of the ad cards that has been created
-
+    - ImageGallery.js
+        - manage the layout of the image gallery for AdView.js
+    - AdFeatures.js
+        - manage the layout of the house/land features for AdView(Content) and AdCard(Cover)
+#### 8. helpers/
+    - ad.js
+        - manage the layout of the price of the house/land (add comma to the figure)
