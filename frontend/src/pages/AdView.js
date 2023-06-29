@@ -1,6 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import ImageGallery from "../components/misc/ImageGallery";
+import AdFeatures from "../components/cards/AdFeatures";
+import {formatNumber} from "../helpers/ad";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 export default function AdView() {
   // states
@@ -23,21 +30,33 @@ export default function AdView() {
     }
   };
 
-  // const photos = [
-  //   {
-  //     src: "https://image-bucket.s3.amazonaws.com/xxx.jpeg",
-  //     width: 4,
-  //     height: 3,
-  //   },
-  //   {
-  //     src: "https://image-bucket.s3.amazonaws.com/xxx.jpeg",
-  //     width: 1,
-  //     height: 1,
-  //   },
-  // ];
-
   return (
     <>
+      <div className="container-fluid">
+        <div className="row mt-2">
+          <div className="col-lg-4 mt-2">
+            {/* ad.type ? House/Land for sell/rent */}
+            <button className="btn btn-primary disabled mt-5">
+              {ad.type ? ad.type : ""} for {ad.action ? ad.action : ""}
+            </button>
+            <br />
+            <p className="text h5 m-2 mt-5">
+              {ad?.sold ? "❌ Off market" : "✅ In market"}
+            </p>
+            <h1 className="mt-5">{ad.address}</h1>
+            <AdFeatures ad={ad} />
+            <h3 className="mt-3 h2">${formatNumber(ad?.price)}</h3>
+            <p className="d-flex justify-content-between mt-4">
+              <span>Added {dayjs(ad?.createdAt).fromNow()}</span>{" "}
+              <span>{ad?.views} Views</span>
+            </p>
+          </div>
+          <div className="col-lg-8">
+            <ImageGallery/>
+          </div>
+        </div>
+      </div>
+      {/* <ImageGallery2/> */}
       <pre>{JSON.stringify(ad, null, 4)}</pre>
     </>
   );
