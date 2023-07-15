@@ -2,8 +2,9 @@
 import {useState} from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import {  Link, useNavigate } from "react-router-dom";
+import {  Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/auth";
+
 
 export default function Login() {
   // context
@@ -15,6 +16,7 @@ export default function Login() {
 
   // hooks
   const navigate = useNavigate();
+  const location = useLocation();
 
   // when click submit, send data to backend
   const handleSubmit = async (e) => {
@@ -35,7 +37,8 @@ export default function Login() {
         localStorage.setItem("auth", JSON.stringify(data));
         toast.success("Login successful");
         setLoading(false);
-        navigate("/");
+        // navigate to state if the state exists, otherwise navigate to dashboard
+        location?.state !== null ? navigate(location.state) : navigate("/dashboard"); 
       }
     } catch (err) {
       console.log(err);

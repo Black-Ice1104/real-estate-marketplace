@@ -3,6 +3,7 @@ import * as config from "../config.js";
 import Ad from "../models/ad.js";
 import User from "../models/user.js";
 import slugify from "slugify";
+import {emailTemplate} from "../helpers/email.js"
 
 export const uploadImage = async (req, res) => {
   try {
@@ -149,7 +150,7 @@ export const read = async (req, res) => {
       type: ad?.type,
       address: {
         $regex: ad.googleMap[0].city,
-        // $regex: ad.googleMap?.[0]?.administrativeLevels?.level2long || "",
+        // $regex: ad.googleMap[0].administrativeLevels?.level2long || "",
         $options: "i",
       },
     })
@@ -158,6 +159,111 @@ export const read = async (req, res) => {
       // .populate("postedBy", "name username email phone company photo.Location");
 
     res.json({ ad, related });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const addToWishlist = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $addToSet: { wishlist: req.body.adId },
+      },
+      { new: true }
+    );
+    const { password, resetCode, ...rest } = user._doc;
+    res.json(rest);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const removeFromWishlist = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $pull: { wishlist: req.params.adId },
+      },
+      { new: true }
+    );
+    const { password, resetCode, ...rest } = user._doc;
+    res.json(rest);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const contactSeller = async (req, res) => {
+  try {
+    const { name, email, message, phone, adId } = req.body;
+
+    const user = await User.findOneAndUpdate(
+      { email },
+      {
+        $addToSet: { enquiredProperties: adId },
+      }
+    );
+
+    const ad = await Ad.findById(adId).populate("postedBy", "email");
+
+    if (!user) {
+      res.json({ error: "Could not find user with that email" });
+    } else {
+      // send email
+      config.AWSSES.sendEmail(
+        emailTemplate(
+          ad.postedBy.email,
+          `
+        <p>You have received a new customer enquiry.</p>
+        
+        <h4>Customer details</h4>
+        <p>Name: ${name}</p>
+        <p>Email ${email}</p>
+        <p>Phone: ${phone}</p>
+        <p>Message: ${message}</p>
+        <p>Enquiried property:</p>
+        <a href="${config.APP_NAME}/ad/${ad.slug}">${ad?.type} in ${ad?.address} for ${ad?.action} $${ad?.price}</a>
+    `,
+          email,
+          "New enquiry received"
+        ),
+        (err, data) => {
+          if (err) {
+            return res.json({ error: "Provide a valid email address" });
+          } else {
+            return res.json({ success: "Check email to access your account" });
+          }
+        }
+      );
+    }
+  } catch (err) {
+    console.log(err);
+    res.json({ error: "Something went wrong. Try again." });
+  }
+};
+
+// get all ads created by user
+export const userAds = async (req, res) => {
+  try {
+    const perPage = 2; // change as required
+    const page = req.params.page ? req.params.page : 1;
+
+    const total = await Ad.find({
+      postedBy: req.user._id,
+    });
+
+    const ads = await Ad.find({ postedBy: req.user._id })
+      .select(
+        "-photos.Key -photos.key -photos.ETag -photos.Bucket -location -googleMap"
+      )
+      .populate("postedBy", "name username email phone company")
+      .skip((page - 1) * perPage)
+      .sort({ createdAt: -1 })
+      .limit(perPage);
+    res.json({ ads, total: total?.length });
   } catch (err) {
     console.log(err);
   }

@@ -17,6 +17,12 @@ import SellLand from "./pages/user/ad/SellLand";
 import RentHouse from "./pages/user/ad/RentHouse";
 import RentLand from "./pages/user/ad/RentLand";
 import AdView from "./pages/AdView";
+import Footer from "./components/nav/Footer";
+import Profile from "./pages/user/Profile";
+import ProfileUpdate from "./components/forms/ProfileUpdate";
+import Settings from "./pages/user/Settings";
+import AdEdit from "./pages/user/ad/AdEdit";
+import AdEditForm from "./components/forms/AdEditForm";
 
 function App() {
   return (
@@ -40,11 +46,17 @@ function App() {
             <Route path="ad/create/sell/Land" element={<SellLand />} />
             <Route path="ad/create/rent/House" element={<RentHouse />} />
             <Route path="ad/create/rent/Land" element={<RentLand />} />
+            <Route path="user/Profile" element={<Profile />} />
+            <Route path="user/profile" element={<ProfileUpdate />} />
+            <Route path="user/settings" element={<Settings />} />
+            <Route path="user/ad/:slug" element={<AdEdit />} />
+            <Route path="user/ad" element={<AdEditForm />} />
           </Route>
 
           <Route path="/ad/:slug" element={<AdView />} />
 
         </Routes>
+        <Footer/>
       </AuthProvider>
     </BrowserRouter>
   );

@@ -9,5 +9,9 @@ router.post("/remove-image", requireSignin, ad.removeImage);
 router.post("/ad", requireSignin, ad.create);
 router.get("/ads", ad.ads);
 router.get("/ad/:slug", ad.read);
-
+router.post("/wishlist", requireSignin, ad.addToWishlist);
+router.delete("/wishlist/:adId", requireSignin, ad.removeFromWishlist);
+router.post("/contact-seller", requireSignin, ad.contactSeller);
+// router.get("/user-ads", requireSignin, ad.userAds);
+router.get("/user-ads/:page", requireSignin, ad.userAds);
 export default router;
