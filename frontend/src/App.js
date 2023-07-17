@@ -23,6 +23,9 @@ import ProfileUpdate from "./components/forms/ProfileUpdate";
 import Settings from "./pages/user/Settings";
 import AdEdit from "./pages/user/ad/AdEdit";
 import AdEditForm from "./components/forms/AdEditForm";
+import Wishlist from "./pages/user/Wishlist";
+import Enquiries from "./pages/user/Enquiries";
+import Agents from "./pages/Agents";
 
 function App() {
   return (
@@ -50,10 +53,13 @@ function App() {
             <Route path="user/profile" element={<ProfileUpdate />} />
             <Route path="user/settings" element={<Settings />} />
             <Route path="user/ad/:slug" element={<AdEdit />} />
-            <Route path="user/ad" element={<AdEditForm />} />
+            {/* <Route path="user/ad" element={<AdEditForm />} /> */}
+            <Route path="/user/wishlist" element={<Wishlist />} />
+            <Route path="/user/enquiries" element={<Enquiries />} />
           </Route>
 
           <Route path="/ad/:slug" element={<AdView />} />
+          <Route path="/agents" element={<Agents />} />
 
         </Routes>
         <Footer/>

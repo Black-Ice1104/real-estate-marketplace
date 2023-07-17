@@ -1,8 +1,8 @@
-// pages/user/ad/AdEdit.js
 import { useEffect, useState } from "react";
 import Sidebar from "../../../components/nav/Sidebar";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import AdEditForm from "../../../components/forms/AdEditForm";
 
 export default function AdEdit() {
   // state
@@ -24,6 +24,7 @@ export default function AdEdit() {
   });
   // hooks
   const params = useParams();
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if (params?.slug) fetchAd();
@@ -33,6 +34,7 @@ export default function AdEdit() {
     try {
       const { data } = await axios.get(`/ad/${params.slug}`);
       setAd(data.ad); // {ad: {}, related: []}
+      setLoaded(true);
     } catch (err) {
       console.log(err);
     }
@@ -44,14 +46,10 @@ export default function AdEdit() {
       <h1 className="display-1 bg-primary text-light p-5">Edit Ad</h1>
       {/* <pre>{JSON.stringify(ad, null, 4)}</pre> */}
       <pre>
-          {ad?.address && ad?.price ? (
-            <AdEditForm action={ad.action} type={ad.type} ad={ad} setAd={setAd} />
-          ) : (
-            ""
+          {ad?.address && (
+            <AdEditForm action={ad.action} type={ad.type} ad={ad} setAd={setAd}/>
           )}
       </pre>
-
-      
     </div>
 
   );

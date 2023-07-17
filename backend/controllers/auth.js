@@ -270,3 +270,40 @@ export const updateProfile = async (req, res) => {
         }
     }
 };
+
+// fetch all users with the role of Seller
+export const agents = async (req, res) => {
+    try {
+      const users = await User.find({ role: "Seller" }).select(
+        "-password -role -enquiredProperties -wishlist -photo.ETag -photo.Key -photo.key -photo.Bucket"
+      );
+      res.json(users);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
+// show how many ads one agent have
+export const agentAdCount = async (req, res) => {
+try {
+  const ads = await Ad.find({ postedBy: req.params._id }).select("_id");
+  res.json(ads);
+} catch (err) {
+  console.log(err);
+}
+};
+
+// find the agent's info
+export const agent = async (req, res) => {
+try {
+  const user = await User.findOne({ username: req.params.username }).select(
+    "-password -role -enquiredProperties -wishlist -photo.ETag -photo.Key -photo.key -photo.Bucket"
+  );
+  const ads = await Ad.find({ postedBy: user._id }).select(
+    "-photos.Key -photos.key -photos.ETag -photos.Bucket -location -googleMap"
+  );
+  res.json({ user, ads });
+} catch (err) {
+  console.log(err);
+}
+};

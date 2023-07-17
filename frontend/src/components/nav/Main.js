@@ -30,9 +30,8 @@ export default function Main(){
   return (
     <nav className="nav d-flex justify-content-between p2 lead">
       <NavLink className="nav-link" aria-current="page" to="/">Home</NavLink>
-      <a className="nav-link pointer" onClick={handlePostAdClick}>
-        Post Ad
-      </a>
+      <NavLink className="nav-link" to="/agents">Agents</NavLink>
+      <a className="nav-link pointer" onClick={handlePostAdClick}>Post Ad</a>
       {/* if not logged in, show "login and registered", otherwise show "User" dropdown */}
       {loggedIn ? (
           <div className={`dropdown ${dropdownOpen ? 'show' : ''}`}>
@@ -45,19 +44,15 @@ export default function Main(){
           {/* the IF statement can be Logical && Operator in JSX */}
           {dropdownOpen && (
             <ul className="dropdown-menu show">
-              <li>
                 <NavLink className="nav-link" to={`/dashboard`}>Dashboard</NavLink>
-              </li>
-              <li>
                 <a onClick={logout} className="nav-link pointer">Logout</a>
-              </li>
             </ul>
           )}
           </div>
         ) : (
           <>
-            <NavLink className="nav-link" to="/login">Login</NavLink>
-            <NavLink className="nav-link" to="/register">Register</NavLink>
+              <NavLink className="nav-link" to="/login">Login</NavLink>
+              <NavLink className="nav-link" to="/register">Register</NavLink>
           </>
         )
       }

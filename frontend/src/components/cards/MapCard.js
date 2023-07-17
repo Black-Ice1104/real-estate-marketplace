@@ -13,6 +13,10 @@ export default function MapCard({ ad }) {
   };
 
   if (ad?.location?.coordinates?.length) {
+    // console.log("photos[0].length=", Object.keys(photos).length);
+    // console.log("ad?.location.coordinates[0]=", ad?.location.coordinates[0]);
+    console.log("MapCard: ad?.photos.length=", ad?.photos?.length);
+    // console.log()
     return (
       // Important! Always set the container height explicitly
       <div style={{ width: "100%", height: "350px" }}>

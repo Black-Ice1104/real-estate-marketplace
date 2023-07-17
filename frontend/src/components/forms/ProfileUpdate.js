@@ -1,4 +1,3 @@
-// components/forms/ProfileUpdate.js
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/auth";
 import axios from "axios";

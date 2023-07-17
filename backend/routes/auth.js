@@ -18,4 +18,8 @@ router.get("/profile/:username", auth.publicProfile); // colon as a prefix makes
 router.put("/update-password", requireSignin, auth.updatePassword);
 router.put("/update-profile", requireSignin, auth.updateProfile);
 
+router.get("/agents", auth.agents);
+router.get("/agent-ad-count/:_id", auth.agentAdCount);
+router.get("/agent/:username", auth.agent);
+
 export default router; // default: if import a name inexisted here, import "router"

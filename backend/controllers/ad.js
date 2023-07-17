@@ -133,7 +133,7 @@ export const ads = async (req, res) => {
   };
 
 // fetch single ad with related ad from MongoDB
-// don't know the use yet
+// don't know the usage yet
 export const read = async (req, res) => {
   try {
     const { slug } = req.params;
@@ -224,7 +224,7 @@ export const contactSeller = async (req, res) => {
         <p>Email ${email}</p>
         <p>Phone: ${phone}</p>
         <p>Message: ${message}</p>
-        <p>Enquiried property:</p>
+        <p>Enquired property:</p>
         <a href="${config.APP_NAME}/ad/${ad.slug}">${ad?.type} in ${ad?.address} for ${ad?.action} $${ad?.price}</a>
     `,
           email,
@@ -245,7 +245,6 @@ export const contactSeller = async (req, res) => {
   }
 };
 
-// get all ads created by user
 export const userAds = async (req, res) => {
   try {
     const perPage = 2; // change as required
@@ -264,6 +263,109 @@ export const userAds = async (req, res) => {
       .sort({ createdAt: -1 })
       .limit(perPage);
     res.json({ ads, total: total?.length });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const update = async (req, res) => {
+  try {
+    // console.log("req.body update => ", req.body);
+    const { photos, 
+            price,
+            bedrooms,
+            bathrooms,
+            landsize,
+            carpark,
+            title, 
+            type, 
+            address, 
+            description } = req.body;
+
+    let ad = await Ad.findById(req.params._id);
+    const owner = req.user._id == ad?.postedBy;
+    if (!owner) {
+      return res.json({ error: "Permission denied" });
+    } else {
+      //validation
+      if (!photos?.length) {
+        return res.json({ error: "Photos are required" });
+      }
+      if (!price) {
+        return res.json({ error: "Price is required" });
+      }
+      if (!type) {
+        return res.json({ error: "Is property house or land?" });
+      }
+      if (!address) {
+        return res.json({ error: "Address is required" });
+      }
+      if (!description) {
+        return res.json({ error: "Description is required" });
+      }
+
+      const geo = await config.GOOGLE_GEOCODER.geocode(address);
+      // console.log("geo => ", [geo?.[0]?.longitude, geo?.[0]?.latitude]);
+
+      // Updating the properties of the ad object
+      ad.photos = photos;
+      ad.price = price;
+      ad.bedrooms = bedrooms;
+      ad.bathrooms = bathrooms;
+      ad.landsize= landsize;
+      ad.carpark= carpark;
+      ad.title= title;
+      ad.type = type;
+      ad.address = address;
+      ad.description = description;
+      ad.location = {
+        type: "Point",
+        coordinates: [geo?.[0]?.longitude, geo?.[0]?.latitude],
+      };
+
+      // Saving the updated ad object
+      await ad.save();
+      res.json({ ok: true });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const enquiredProperties = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const ads = await Ad.find({ _id: user.enquiredProperties }).sort({ createdAt: -1, });
+    res.json(ads);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const wishlist = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const ads = await Ad.find({ _id: user.wishlist }).sort({ createdAt: -1 });
+    res.json(ads);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const remove = async (req, res) => {
+  try {
+    const adId = req.params._id;
+
+    const ad = await Ad.findById(adId);
+
+    const owner = req.user._id == ad?.postedBy;
+
+    if (!owner) {
+      return res.json({ error: "Permission denied" });
+    } else {
+      await Ad.findByIdAndDelete(adId);
+      res.json({ ok: true });
+    }
   } catch (err) {
     console.log(err);
   }

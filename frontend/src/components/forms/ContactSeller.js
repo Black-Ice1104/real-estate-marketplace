@@ -61,7 +61,7 @@ export default function ContactSeller({ ad }) {
   return (
     <div className="card shadow px-3 py-3">
       <div className="row">
-        <div className="col-lg-8 offset-lg-2 mt-3 ">
+        <div className="col-lg-8 offset-lg-2 mt-3">
             <div>
               <h4>Contact {ad.postedBy?.name ?? ad.postedBy?.username}</h4>
               <p>

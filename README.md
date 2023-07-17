@@ -23,7 +23,6 @@ Frontend:
     npm i react-dom@18.2.0
     npm i react-google-places-autocomplete@3.4.0
     npm i react-hot-toast@2.4.0
-    npm i react-html-renderer@0.3.3
     npm i react-icons@4.7.1
     npm i react-image-file-resizer@0.4.8
     npm i react-router-dom@6.6.1
@@ -32,6 +31,9 @@ Frontend:
     npm i web-vitals@2.1.4
     npm i react-photoswipe-gallery@2.2.7
     npm i dayjs
+    npm i google-map-react@2.2.0
+    npm i react-quill@2.0.0
+    npm i html-react-parser@4.0.0
 
     Abandoned:
     npm i react-grid-gallery@1.0.0
@@ -82,9 +84,16 @@ Frontend:
     - current user:
         - find user by id
         - get current user logged in
-    - public profile:
-    - update password:
-    - update profile:
+    - public profile: 
+        - create a user public profile
+    - update password
+    - update profile
+    - update
+        - update the ad features in the dashboard
+    - enquired properties
+        - layout the enquired properties in the dashboard
+    - wishlist
+        - layout the house / land in the wishlist in the dashboard
 - ad.js - *process different requests & responses of advertisement*
     - upload image:
         - upload image of a house / land to AWS S3 when creating an ad
@@ -95,6 +104,14 @@ Frontend:
         - save the info entered to database
     - ads:
         - query all the ads for sell and rent from database
+    - read:
+        - fetch single ad with related ad from MongoDB
+    - add to wishlist
+    - remove from wishlist
+    - contact seller:
+        - fetch the contact form and send contact email to seller
+    - user ads:
+        - fetch all the ads created by user
 #### 5. models/
 *create database models using mongoose in MongoDB*
 - user.js
@@ -141,35 +158,66 @@ Frontend:
         - RentLand.js
         - SellHouse.js
         - SellLand.js
+        - AdEdit.js
+            - enable editing ad with AdEditForm.js in /components/form/
     - Dashboard.js
-- AdView.js: manage the layout of ad view when clicking into the ad card
-- Home.js: manage the layout of Home page
+        - fetch all ads by current user
+    - Profile.js
+        - update personal profile info with ProfileUpdate.js in /components/forms/
+    - Setting.js
+        - update account password with PasswordUpdate.js in /components/forms/
+- Home.js: manage the layout of Home page, including all the AdCard
 - Login.js: manage the layout of Login page
 - Register.js: manage the layout of Registration page
+- AdView.js: manage the layout of view of every ad page when clicking into the ad card
+    - show the basic info of the house / land
+    - show the off / in market status, add to wishlist button
+    - show Google Map and introduction details 
+    - show contact seller form
+    - show related ads
 #### 6. context/
 - auth.js
     - store user info and token after successful login
-    - use React context to create a global store accessible by all pages
+    - use React context to create a global store accessible by all pages by storing auth info in local storage
 #### 7. components/
 - routes/
     - PrivateRoute.js
+        - protect pages from not logged in user
 - nav/
     - Main.js
         - manage the layout logic of the main page
         - e.g. Home, Login, Register, User Dashboard, etc
     - Sidebar.js
+        - manage the layout of the topbar with buttons like dashboard, create ad, update and settings, etc
+    - Footer.js
+        - manage the layout of the website footer within every page
 - forms/
     - AdForm.js
         - manage the layout of the ad form when creating an ad
-    - ImageUpload.js
+    - ContactSeller.js
+    - PasswordUpdate.js
+    - ProfileUpdate.js
+    - ProfileUpload.js
         - manage the layout of the image uploading in the ad form
+    - AdEditForm.js
+        - manage the layout of the ad edit form
 - cards/
     - AdCard.js
         - manage the layout of the ad cards that has been created
-    - ImageGallery.js
-        - manage the layout of the image gallery for AdView.js
     - AdFeatures.js
         - manage the layout of the house/land features for AdView(Content) and AdCard(Cover)
+    - MapCard.js
+        - manage the layout of the Google Map module in ad page
+    - UserAdCard.js
+        - manage the layout of the ad cards by every single user only
+- misc
+    - ImageGallery.js
+        - manage the layout of the image gallery for AdView.js
+    - LikeUnlike.js
 #### 8. helpers/
-    - ad.js
-        - manage the layout of the price of the house/land (add comma to the figure)
+- ad.js
+    - manage the layout of the price of the house/land (add comma to the figure)
+
+### **Invoke Relationship**
+- Home  ->  AdCard  -> db.photos
+                    -> AdFeatures

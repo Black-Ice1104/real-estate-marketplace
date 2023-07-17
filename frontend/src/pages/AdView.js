@@ -60,7 +60,7 @@ export default function AdView() {
             </p>
           </div>
           <div className="col-lg-8">
-            <ImageGallery/>
+            <ImageGallery ad={ad}/>
           </div>
         </div>
       </div>
