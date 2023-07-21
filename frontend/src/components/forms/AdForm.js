@@ -7,7 +7,7 @@ import ImageUpload from "./ImageUpload";
 // import { Avatar } from "antd";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 
 export default function AdForm({ action, type }) {
@@ -31,7 +31,7 @@ export default function AdForm({ action, type }) {
     });
 
     // hooks
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -160,7 +160,7 @@ export default function AdForm({ action, type }) {
 
         <p></p>
         <pre>
-          {JSON.stringify(ad, null, 4)}
+          {/* {JSON.stringify(ad, null, 4)} */}
         </pre>
       </>
     );

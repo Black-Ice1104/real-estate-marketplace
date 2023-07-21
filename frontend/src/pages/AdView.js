@@ -100,7 +100,7 @@ export default function AdView() {
         </div>
       </div>
 
-      <pre>{JSON.stringify(ad, null, 4)}</pre>
+      {/* <pre>{JSON.stringify(ad, null, 4)}</pre> */}
     </>
   );
 }
