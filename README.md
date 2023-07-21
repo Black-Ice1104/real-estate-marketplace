@@ -11,6 +11,7 @@ Backend:
 
     npm i express nodemon morgan mongoose jsonwebtoken bcrypt nanoid cors email-validator 
     npm i slugify node-geocoder aws-sdk
+
 Frontend:
 
     npx create-react-app .
@@ -34,6 +35,7 @@ Frontend:
     npm i google-map-react@2.2.0
     npm i react-quill@2.0.0
     npm i html-react-parser@4.0.0
+    npm i query-string@8.1.0
 
     Abandoned:
     npm i react-grid-gallery@1.0.0

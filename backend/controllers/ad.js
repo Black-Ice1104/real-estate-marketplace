@@ -370,3 +370,73 @@ export const remove = async (req, res) => {
     console.log(err);
   }
 };
+
+export const adsForSell = async (req, res) => {
+  try {
+    const ads = await Ad.find({ action: "Sell", published: true })
+      .select(
+        "-photos.Key -photos.key -photos.ETag -photos.Bucket -location -googleMap"
+      )
+      .populate("postedBy", "name username email phone company")
+      .sort({ createdAt: -1 })
+      .limit(12);
+
+    res.json(ads);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const adsForRent = async (req, res) => {
+  try {
+    const ads = await Ad.find({ action: "Rent", published: true })
+      .select(
+        "-photos.Key -photos.key -photos.ETag -photos.Bucket -location -googleMap"
+      )
+      .populate("postedBy", "name username email phone company")
+      .sort({ createdAt: -1 })
+      .limit(12);
+
+    res.json(ads);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const search = async (req, res) => {
+  console.log("req.query => ", req.query);
+  try {
+    // action address type price
+    const { action, address, type, priceRange } = req.query;
+
+    const geo = await config.GOOGLE_GEOCODER.geocode(address);
+
+    const ads = await Ad.find({
+      action: action === "Buy" ? "Sell" : "Rent",
+      type,
+      price: {
+        $gte: parseInt(priceRange[0]),
+        $lte: parseInt(priceRange[1]),
+      },
+      location: {
+        $near: {
+          $maxDistance: 50000, // 1000m = 1km
+          $geometry: {
+            type: "Point",
+            coordinates: [geo?.[0]?.longitude, geo?.[0]?.latitude],
+          },
+        },
+      },
+      published: true,
+    })
+      .limit(48)
+      .sort({ createdAt: -1 })
+      .select(
+        "-photos.Key -photos.key -photos.ETag -photos.Bucket -location -googleMap"
+      );
+    console.log("ads search result => ", ads);
+    res.json(ads);
+  } catch (err) {
+    console.log(err);
+  }
+};

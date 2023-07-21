@@ -20,4 +20,8 @@ router.put("/ad/:_id", requireSignin, ad.update);
 router.get("/enquired-properties", requireSignin, ad.enquiredProperties);
 router.get("/wishlist", requireSignin, ad.wishlist);
 router.delete("/ad/:_id", requireSignin, ad.remove);
+
+router.get("/ads-for-sell", ad.adsForSell);
+router.get("/ads-for-rent", ad.adsForRent);
+router.get("/search", ad.search);
 export default router;

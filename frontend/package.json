@@ -11,6 +11,7 @@
         "dayjs": "^1.11.8",
         "google-map-react": "^2.2.0",
         "html-react-parser": "^4.0.0",
+        "query-string": "^8.1.0",
         "react": "^18.2.0",
         "react-currency-input-field": "^3.6.9",
         "react-dom": "^18.2.0",

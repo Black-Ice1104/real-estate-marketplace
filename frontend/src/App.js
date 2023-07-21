@@ -1,6 +1,7 @@
 // Manage different routes at frontend
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {AuthProvider} from "./context/auth";
+import { SearchProvider } from "./context/search";
 import Main from "./components/nav/Main";
 import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home";
@@ -22,47 +23,61 @@ import Profile from "./pages/user/Profile";
 import ProfileUpdate from "./components/forms/ProfileUpdate";
 import Settings from "./pages/user/Settings";
 import AdEdit from "./pages/user/ad/AdEdit";
-import AdEditForm from "./components/forms/AdEditForm";
+// import AdEditForm from "./components/forms/AdEditForm";
 import Wishlist from "./pages/user/Wishlist";
 import Enquiries from "./pages/user/Enquiries";
 import Agents from "./pages/Agents";
+import PublicProfile from "./pages/user/PublicProfile";
+import AdsForRent from "./pages/AdsForRent";
+import AdsForSell from "./pages/AdsForSell";
+import Search from "./pages/Search";
+
+const PageNotFound = () => {
+  return <div className="text-center p-5">404 Page Not Found!</div>
+};
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Main /> {/* import the Main function */}
-        <Toaster /> {/* if not so, the toast module in routes won't function */}
-        <Routes>
-          {/* whenever the user click "Home", will visit "/" page */}
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/auth/account-activate/:token" element={<AccountActivate />}/>
-          <Route path="/auth/forgot-password" element={<ForgotPassword />}/>
-          <Route path="/auth/access-account/:token" element={<AccessAccount />}/>
-          
-          <Route path="/" element={<PrivateRoute />}>
-            <Route path="dashboard" element={<Dashboard />}/>
-            <Route path="ad/create" element={<AdCreate />}/>
-            <Route path="ad/create/sell/House" element={<SellHouse />} />
-            <Route path="ad/create/sell/Land" element={<SellLand />} />
-            <Route path="ad/create/rent/House" element={<RentHouse />} />
-            <Route path="ad/create/rent/Land" element={<RentLand />} />
-            <Route path="user/Profile" element={<Profile />} />
-            <Route path="user/profile" element={<ProfileUpdate />} />
-            <Route path="user/settings" element={<Settings />} />
-            <Route path="user/ad/:slug" element={<AdEdit />} />
-            {/* <Route path="user/ad" element={<AdEditForm />} /> */}
-            <Route path="/user/wishlist" element={<Wishlist />} />
-            <Route path="/user/enquiries" element={<Enquiries />} />
-          </Route>
+        <SearchProvider>
+          <Main /> {/* import the Main function */}
+          <Toaster /> {/* if not so, the toast module in routes won't function */}
+          <Routes>
+            {/* whenever the user click "Home", will visit "/" page */}
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/auth/account-activate/:token" element={<AccountActivate />}/>
+            <Route path="/auth/forgot-password" element={<ForgotPassword />}/>
+            <Route path="/auth/access-account/:token" element={<AccessAccount />}/>
+            
+            <Route path="/" element={<PrivateRoute />}>
+              <Route path="dashboard" element={<Dashboard />}/>
+              <Route path="ad/create" element={<AdCreate />}/>
+              <Route path="ad/create/sell/House" element={<SellHouse />} />
+              <Route path="ad/create/sell/Land" element={<SellLand />} />
+              <Route path="ad/create/rent/House" element={<RentHouse />} />
+              <Route path="ad/create/rent/Land" element={<RentLand />} />
+              <Route path="user/Profile" element={<Profile />} />
+              <Route path="user/profile" element={<ProfileUpdate />} />
+              <Route path="user/settings" element={<Settings />} />
+              <Route path="user/ad/:slug" element={<AdEdit />} />
+              {/* <Route path="user/ad" element={<AdEditForm />} /> */}
+              <Route path="/user/wishlist" element={<Wishlist />} />
+              <Route path="/user/enquiries" element={<Enquiries />} />
+            </Route>
 
-          <Route path="/ad/:slug" element={<AdView />} />
-          <Route path="/agents" element={<Agents />} />
-
-        </Routes>
-        <Footer/>
+            <Route path="/ad/:slug" element={<AdView />} />
+            <Route path="/agents" element={<Agents />} />
+            <Route path="/agent/:username" element={<PublicProfile />} />
+            <Route path="/buy" element={<AdsForSell />} />
+            <Route path="/rent" element={<AdsForRent />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+          <Footer/>
+        </SearchProvider>
       </AuthProvider>
     </BrowserRouter>
   );

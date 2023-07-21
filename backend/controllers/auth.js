@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import {emailTemplate} from "../helpers/email.js";
 import {hashPassword, comparePassword} from '../helpers/auth.js';
 import User from '../models/user.js';
+import Ad from "../models/ad.js";
 import {nanoid} from 'nanoid';
 import validator from "email-validator";
 

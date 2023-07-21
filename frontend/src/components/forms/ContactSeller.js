@@ -63,7 +63,13 @@ export default function ContactSeller({ ad }) {
       <div className="row">
         <div className="col-lg-8 offset-lg-2 mt-3">
             <div>
-              <h4>Contact {ad.postedBy?.name ?? ad.postedBy?.username}</h4>
+              {/* <h4>Contact {ad.postedBy?.name ?? ad.postedBy?.username}</h4> */}
+              <h4>
+                Contact{" "}
+                <Link to={`/agent/${ad.postedBy?.username}`}>
+                  {ad.postedBy?.name ?? ad.postedBy?.username}
+                </Link>
+              </h4>
               <p>
                 About {ad?.type} in {ad?.address} for {ad?.action} ${ad?.price}
               </p>
