@@ -1,7 +1,7 @@
 # MERN Stack Real Estate Marketplace App
 # (基于MERN的房产服务平台网站)
 
-### [Click to visit the web app](http://137.184.126.137/)
+### [Click to visit the web app](http://143.110.239.71/)
 
 ## Dependencies
 First make sure you have the latest version of NodeJs installed in your computer.
