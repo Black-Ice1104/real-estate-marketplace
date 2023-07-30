@@ -1,7 +1,7 @@
 # MERN Stack Real Estate Marketplace App
 # (基于MERN的房产服务平台网站)
 
-### [Click to visit the web app](http://realistdeal.online/)
+### [Click to visit the web app](https://realistdeal.online/)
 
 ## Dependencies
 First make sure you have the latest version of NodeJs installed in your computer.
