@@ -1,6 +1,6 @@
 # MERN Stack Real Estate Marketplace App
 # (基于MERN的房产服务平台网站)
-
+## Developed by Yijia Sun (Bellamy)
 ### [Click to visit the web app](https://realistdeal.online/)
 
 ## Dependencies
